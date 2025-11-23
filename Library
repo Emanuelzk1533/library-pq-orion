@@ -26,7 +26,7 @@ local function CreateNormalNotificationArguments()
 			TextColor3 = Color3.fromRGB(240, 240, 240),
 			TextScaled = true,
 			TextWrapped = true,
-			TextSize = 25.000, -- AUMENTADO DE 18 PARA 25
+			TextSize = 25.000, -- AUMENTADO: de 18 para 25
 			Font = Enum.Font.SourceSansBold,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Center
@@ -37,7 +37,7 @@ local function CreateNormalNotificationArguments()
 			TextColor3 = Color3.fromRGB(240, 240, 240),
 			TextScaled = true,
 			TextWrapped = true,
-			TextSize = 20.000, -- AUMENTADO DE 14 PARA 20
+			TextSize = 20.000, -- AUMENTADO: de 14 para 20
 			Font = Enum.Font.SourceSans,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Top,
@@ -129,8 +129,8 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	_Template.BackgroundTransparency = MainSettings.BackgroundTransparency
 	_Template.BorderColor3 = MainSettings.BorderColor3
 	_Template.Position = UDim2.new(0.713929176, 0, 0.587826073, 0)
-	-- O tamanho da notificação principal precisa ser ajustado para caber o ícone maior e o texto maior
-	_Template.Size = UDim2.new(0, 400, 0, 100) -- AUMENTADO: de (0, 270, 0, 64) para (0, 400, 0, 100)
+	-- [AUMENTADO] Tamanho da notificação principal: 400x100
+	_Template.Size = UDim2.new(0, 400, 0, 100) 
 	_Template.ZIndex = 9
 	_Template.Visible = false;
 	_Template.Parent = Notification
@@ -140,7 +140,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Icon.BackgroundColor3 = IconSettings.BackgroundColor3
 	Icon.BackgroundTransparency = IconSettings.BackgroundTransparency
 	Icon.Position = UDim2.new(0.0277603213, 0, 0.182097465, 0)
-	-- AUMENTANDO O TAMANHO DO ÍCONE DE 40x40 PARA 60x60
+	-- [AUMENTADO] Tamanho do ícone: 60x60
 	Icon.Size = UDim2.new(0, 60, 0, 60) 
 	Icon.Image = Image
 
@@ -149,9 +149,9 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Title.Name = "Title"
 	Title.Parent = _Template
 	Title.BackgroundTransparency = 1.000
-	-- AJUSTANDO POSIÇÃO DO TÍTULO (60+margem = 75)
+	-- [AJUSTADO] Posição do Título
 	Title.Position = UDim2.new(0, 75, 0, 5) 
-	-- AUMENTANDO LARGURA E ALTURA DO TÍTULO
+	-- [AUMENTADO] Tamanho do Título
 	Title.Size = UDim2.new(0, 300, 0, 30) 
 	Title.Text = TitleData
 	Title.TextColor3 = TitleSettings.TextColor3
@@ -167,9 +167,9 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	TextLabel.Parent = _Template
 	TextLabel.BackgroundColor3 = DescriptionSettings.BackgroundColor3
 	TextLabel.BackgroundTransparency = 1.000
-	-- AJUSTANDO POSIÇÃO DA DESCRIÇÃO (Abaixo do novo Título, 5+30+margem=40)
+	-- [AJUSTADO] Posição da Descrição
 	TextLabel.Position = UDim2.new(0, 75, 0, 40)
-	-- AUMENTANDO LARGURA E ALTURA DA DESCRIÇÃO
+	-- [AUMENTADO] Tamanho da Descrição
 	TextLabel.Size = UDim2.new(0, 300, 0, 50)
 	TextLabel.Text = Text
 	TextLabel.TextColor3 = DescriptionSettings.TextColor3
@@ -187,7 +187,7 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Frame.Parent = _Template
 	Frame.BorderSizePixel = 0
 	Frame.Position = UDim2.new(0,0,1,-3)
-	-- AJUSTANDO LARGURA DA BARRA DE GRADIENTE
+	-- [AJUSTADO] Largura da barra de gradiente
 	Frame.Size = UDim2.new(0, 394, 0, 3) 
 	Frame.Visible = false;
 
@@ -205,11 +205,8 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	return {_Template, Duration, GradientSettings.Retract, GradientSettings.Extend};
 end
 
--- ... O restante do código de 'insertNotification' em diante não precisa de grandes mudanças
 local function insertNotification(notification, duration, retracting, extending)
-    -- POSIÇÃO DE EXIBIÇÃO: O valor -280 (largura) e -70 (empilhamento vertical) também deve ser ajustado para acomodar o tamanho maior
-    -- Vamos aumentar o -280 (largura) para -410 (compatível com 400px de largura da notificação)
-    -- E o -70 (empilhamento) para -110 (compatível com 100px de altura da notificação)
+    -- [AJUSTADO] Posição de Exibição (para acomodar 400x100 de tamanho)
     local showPosition = UDim2.new(1, -410, 1, -110 * #NotificationFolder:GetChildren() - 1) 
     local hidePosition = UDim2.new(1, 0, 1, 0)
     local tweenInfData = TweenInfo.new(0.4)
@@ -229,7 +226,7 @@ local function insertNotification(notification, duration, retracting, extending)
     elseif extending then
         notification.Frame.Size = UDim2.new(0, 0, 0, 3)
         TweenService:Create(notification.Frame, tweenInfData2, {
-            Size = UDim2.new(0, 394, 0, 3) -- AJUSTANDO LARGURA DA BARRA DE GRADIENTE
+            Size = UDim2.new(0, 394, 0, 3) -- [AJUSTADO] Largura da barra de gradiente
         }):Play()
     end
     
@@ -257,7 +254,6 @@ NotificationTable.InsertNotification = function(notification, duration, retracti
     Done = false
 end
 
--- ... O restante do código permanece o mesmo.
 NotificationTable.Notify = function(...)
 	coroutine.wrap(function(...)
 		local Args = {...};
@@ -290,7 +286,7 @@ NotificationTable.Notify = function(...)
 end
 
 -- { Wall Notifications } --
--- ... (O código das Wall Notifications não foi alterado, pois você estava focado na notificação padrão)
+
 
 local function CreateWallArgs()
 	return {
