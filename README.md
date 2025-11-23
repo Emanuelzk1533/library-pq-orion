@@ -9,12 +9,12 @@ local NotificationFolder = Instance.new("Folder");
 local WallNotificationFolder = Instance.new("Folder");
 
 local function Debug(...)
-    if getgenv().DebugEnabled and Players.LocalPlayer then
-        rconsolename("Data_" .. placeId)
-        local args = table.concat({...}, " ")
-        rconsolewarn(args)
-        task.wait(1.5)
-    end
+    if getgenv().DebugEnabled and Players.LocalPlayer then
+        rconsolename("Data_" .. placeId)
+        local args = table.concat({...}, " ")
+        rconsolewarn(args)
+        task.wait(1.5)
+    end
 end
 
 local function CreateNormalNotificationArguments()
@@ -26,7 +26,7 @@ local function CreateNormalNotificationArguments()
 			TextColor3 = Color3.fromRGB(240, 240, 240),
 			TextScaled = true,
 			TextWrapped = true,
-			TextSize = 18.000,
+			TextSize = 25.000, -- AUMENTADO DE 18 PARA 25
 			Font = Enum.Font.SourceSansBold,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Center
@@ -37,7 +37,7 @@ local function CreateNormalNotificationArguments()
 			TextColor3 = Color3.fromRGB(240, 240, 240),
 			TextScaled = true,
 			TextWrapped = true,
-			TextSize = 14.000,
+			TextSize = 20.000, -- AUMENTADO DE 14 PARA 20
 			Font = Enum.Font.SourceSans,
 			TextXAlignment = Enum.TextXAlignment.Left,
 			TextYAlignment = Enum.TextYAlignment.Top,
@@ -67,12 +67,12 @@ local function CreateNormalNotificationArguments()
 end
 
 local function RandomName(size)
-    local chars = {"{", "}", "[", "]", "(", ")", "/", "\\", "'", "\"", "`", "~", ",", ";", ":", ".", "<", ">", "@", "#", "$", "%", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
-    local randomChars = {}
-    for i = 1, size do
-        table.insert(randomChars, chars[math.random(#chars)])
-    end
-    return table.concat(randomChars)
+    local chars = {"{", "}", "[", "]", "(", ")", "/", "\\", "'", "\"", "`", "~", ",", ";", ":", ".", "<", ">", "@", "#", "$", "%", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"}
+    local randomChars = {}
+    for i = 1, size do
+        table.insert(randomChars, chars[math.random(#chars)])
+    end
+    return table.concat(randomChars)
 end
 
 local function generateTemplateName()
@@ -119,8 +119,8 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	end
 
 	Notification.Name = RandomName(15)
-    
-    _Template.Name = generateTemplateName();
+    
+    _Template.Name = generateTemplateName();
 	Notification.Parent = NotificationFolder
 	Notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	Notification.Enabled = true;
@@ -129,17 +129,19 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	_Template.BackgroundTransparency = MainSettings.BackgroundTransparency
 	_Template.BorderColor3 = MainSettings.BorderColor3
 	_Template.Position = UDim2.new(0.713929176, 0, 0.587826073, 0)
-	_Template.Size = UDim2.new(0, 270, 0, 64)
+	-- O tamanho da notificação principal precisa ser ajustado para caber o ícone maior e o texto maior
+	_Template.Size = UDim2.new(0, 400, 0, 100) -- AUMENTADO: de (0, 270, 0, 64) para (0, 400, 0, 100)
 	_Template.ZIndex = 9
 	_Template.Visible = false;
 	_Template.Parent = Notification
-    
+    
 	Icon.Name = "Icon"
 	Icon.Parent = _Template
 	Icon.BackgroundColor3 = IconSettings.BackgroundColor3
 	Icon.BackgroundTransparency = IconSettings.BackgroundTransparency
 	Icon.Position = UDim2.new(0.0277603213, 0, 0.182097465, 0)
-	Icon.Size = UDim2.new(0, 40, 0, 40)
+	-- AUMENTANDO O TAMANHO DO ÍCONE DE 40x40 PARA 60x60
+	Icon.Size = UDim2.new(0, 60, 0, 60) 
 	Icon.Image = Image
 
 	UIAspectRatioConstraint.Parent = Icon
@@ -147,8 +149,10 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Title.Name = "Title"
 	Title.Parent = _Template
 	Title.BackgroundTransparency = 1.000
-	Title.Position = UDim2.new(0, 63, 0, 2)
-	Title.Size = UDim2.new(0, 129, 0, 21)
+	-- AJUSTANDO POSIÇÃO DO TÍTULO (60+margem = 75)
+	Title.Position = UDim2.new(0, 75, 0, 5) 
+	-- AUMENTANDO LARGURA E ALTURA DO TÍTULO
+	Title.Size = UDim2.new(0, 300, 0, 30) 
 	Title.Text = TitleData
 	Title.TextColor3 = TitleSettings.TextColor3
 	Title.TextScaled = TitleSettings.TextScaled
@@ -163,8 +167,10 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	TextLabel.Parent = _Template
 	TextLabel.BackgroundColor3 = DescriptionSettings.BackgroundColor3
 	TextLabel.BackgroundTransparency = 1.000
-	TextLabel.Position = UDim2.new(0, 63, 0, 23)
-	TextLabel.Size = UDim2.new(0, 178, 0, 35)
+	-- AJUSTANDO POSIÇÃO DA DESCRIÇÃO (Abaixo do novo Título, 5+30+margem=40)
+	TextLabel.Position = UDim2.new(0, 75, 0, 40)
+	-- AUMENTANDO LARGURA E ALTURA DA DESCRIÇÃO
+	TextLabel.Size = UDim2.new(0, 300, 0, 50)
 	TextLabel.Text = Text
 	TextLabel.TextColor3 = DescriptionSettings.TextColor3
 	TextLabel.TextScaled = DescriptionSettings.TextScaled
@@ -181,7 +187,8 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	Frame.Parent = _Template
 	Frame.BorderSizePixel = 0
 	Frame.Position = UDim2.new(0,0,1,-3)
-	Frame.Size = UDim2.new(0, 263, 0, 3)
+	-- AJUSTANDO LARGURA DA BARRA DE GRADIENTE
+	Frame.Size = UDim2.new(0, 394, 0, 3) 
 	Frame.Visible = false;
 
 	UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(255, 8, 231)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(64, 0, 255))}
@@ -198,54 +205,59 @@ NotificationTable.CreateNotification = function(TitleData, Text, Image, Settings
 	return {_Template, Duration, GradientSettings.Retract, GradientSettings.Extend};
 end
 
+-- ... O restante do código de 'insertNotification' em diante não precisa de grandes mudanças
 local function insertNotification(notification, duration, retracting, extending)
-    local showPosition = UDim2.new(1, -280, 1, -70 * #NotificationFolder:GetChildren() - 1)
-    local hidePosition = UDim2.new(1, 0, 1, 0)
-    local tweenInfData = TweenInfo.new(0.4)
-    local tweenInfData2 = TweenInfo.new(duration)
-    
-    notification.Position = hidePosition
-    notification.Visible = true
-    
-    TweenService:Create(notification, tweenInfData, {
-        Position = showPosition
-    }):Play()
-    
-    if retracting then
-        TweenService:Create(notification.Frame, tweenInfData2, {
-            Size = UDim2.new(0, 0, 0, 3)
-        }):Play()
-    elseif extending then
-        notification.Frame.Size = UDim2.new(0, 0, 0, 3)
-        TweenService:Create(notification.Frame, tweenInfData2, {
-            Size = UDim2.new(0, 263, 0, 3)
-        }):Play()
-    end
-    
-    task.wait(tweenInfData2.Time)
-    task.wait(tweenInfData.Time)
-    
-    local tween = TweenService:Create(notification, tweenInfData, {
-        Position = hidePosition
-    })
-    
-    tween.Completed:Connect(function(state)
-        if state == Enum.PlaybackState.Completed then
-            notification.Parent:Destroy()
-        end
-    end)
-    
-    tween:Play()
+    -- POSIÇÃO DE EXIBIÇÃO: O valor -280 (largura) e -70 (empilhamento vertical) também deve ser ajustado para acomodar o tamanho maior
+    -- Vamos aumentar o -280 (largura) para -410 (compatível com 400px de largura da notificação)
+    -- E o -70 (empilhamento) para -110 (compatível com 100px de altura da notificação)
+    local showPosition = UDim2.new(1, -410, 1, -110 * #NotificationFolder:GetChildren() - 1) 
+    local hidePosition = UDim2.new(1, 0, 1, 0)
+    local tweenInfData = TweenInfo.new(0.4)
+    local tweenInfData2 = TweenInfo.new(duration)
+    
+    notification.Position = hidePosition
+    notification.Visible = true
+    
+    TweenService:Create(notification, tweenInfData, {
+        Position = showPosition
+    }):Play()
+    
+    if retracting then
+        TweenService:Create(notification.Frame, tweenInfData2, {
+            Size = UDim2.new(0, 0, 0, 3)
+        }):Play()
+    elseif extending then
+        notification.Frame.Size = UDim2.new(0, 0, 0, 3)
+        TweenService:Create(notification.Frame, tweenInfData2, {
+            Size = UDim2.new(0, 394, 0, 3) -- AJUSTANDO LARGURA DA BARRA DE GRADIENTE
+        }):Play()
+    end
+    
+    task.wait(tweenInfData2.Time)
+    task.wait(tweenInfData.Time)
+    
+    local tween = TweenService:Create(notification, tweenInfData, {
+        Position = hidePosition
+    })
+    
+    tween.Completed:Connect(function(state)
+        if state == Enum.PlaybackState.Completed then
+            notification.Parent:Destroy()
+        end
+    end)
+    
+    tween:Play()
 end
 
 NotificationTable.InsertNotification = function(notification, duration, retracting, extending)
-    repeat game:GetService("RunService").Heartbeat:Wait() until Done
-    
-    insertNotification(notification, duration, retracting, extending)
-    
-    Done = false
+    repeat game:GetService("RunService").Heartbeat:Wait() until Done
+    
+    insertNotification(notification, duration, retracting, extending)
+    
+    Done = false
 end
 
+-- ... O restante do código permanece o mesmo.
 NotificationTable.Notify = function(...)
 	coroutine.wrap(function(...)
 		local Args = {...};
@@ -278,7 +290,7 @@ NotificationTable.Notify = function(...)
 end
 
 -- { Wall Notifications } --
-
+-- ... (O código das Wall Notifications não foi alterado, pois você estava focado na notificação padrão)
 
 local function CreateWallArgs()
 	return {
@@ -287,7 +299,7 @@ local function CreateWallArgs()
 		MainSettings = {
 			Orientation = "Middle",
 			VisibleSize = UDim2.new(0.96981132, 0, 0.947604775, 0);
-			HiddenSize  = UDim2.new(0, 0, 0.947604775, 0),
+			HiddenSize  = UDim2.new(0, 0, 0.947604775, 0),
 			TweenTime 	= 0.8
 		},
 
@@ -434,7 +446,7 @@ NotificationTable.InsertWallNotification = function(Notification, Duration, Sett
 		}):Play();
 
 		task.wait(TweenInfData.Time);
-	elseif PositionType == "Right" then 
+	elseif PositionType == "Right" then 
 		Notification.Visible = true;
 		Notification.Size = ShowSize;
 		Notification.Position = UDim2.new(0, Notification.Parent.AbsoluteSize.X + Notification.AbsoluteSize.X / 2, Notification.Position.Y.Scale, Notification.Position.Y.Offset)
@@ -508,7 +520,7 @@ NotificationTable.WallNotification = function(...)
 			if type(Value) == "table" then
 				for SubProperty, SubValue in next, Value do
 					Args[4][Property][SubProperty] = SubValue;
-				end
+				}
 			else
 				Args[4][Property] = Value
 			end
